@@ -10,10 +10,10 @@ abstract final class PrefsKeys {
 /// Mock login credentials for the bonus login flow.
 abstract final class AuthConstants {
   /// Valid mock username.
-  static const username = 'srini';
+  static const username = 'aarav';
 
   /// Valid mock PIN.
-  static const pin = '8898';
+  static const pin = '1234';
 }
 
 /// Timing constants for portfolio refresh simulation.

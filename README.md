@@ -11,8 +11,9 @@ and fl_chart for visualizations.
 ## Screenshots
 
 <!-- Add screenshots after UI is built -->
-| Dashboard (Light) | Dashboard (Dark) |
-|---|---|
+
+| Dashboard (Light)                         | Dashboard (Dark)                        |
+| ----------------------------------------- | --------------------------------------- |
 | ![light](screenshots/dashboard_light.png) | ![dark](screenshots/dashboard_dark.png) |
 
 ---
@@ -33,12 +34,12 @@ and fl_chart for visualizations.
 
 ## Tech Stack
 
-| Layer | Package | Version |
-|---|---|---|
-| State management | flutter_riverpod | ^3.3.2 |
-| Charts | fl_chart | ^1.2.0 |
-| Persistence | shared_preferences | ^2.5.3 |
-| Language | Dart 3.x (null-safe) | sdk ^3.7.0 |
+| Layer            | Package              | Version    |
+| ---------------- | -------------------- | ---------- |
+| State management | flutter_riverpod     | ^3.3.2     |
+| Charts           | fl_chart             | ^1.2.0     |
+| Persistence      | shared_preferences   | ^2.5.3     |
+| Language         | Dart 3.x (null-safe) | sdk ^3.7.0 |
 
 ---
 
@@ -67,26 +68,28 @@ flutter run -d android       # Android emulator/device
 ```
 
 ### Mock Credentials (Bonus Login)
-Username: srini
-PIN:      8898
+
+Username: aarav
+PIN: 1234
 
 ---
 
 ## Demo
 
 <!-- Add Loom / YouTube / Google Drive screen recording link here -->
+
 [Watch demo recording](#)
 
 ---
 
 ## Rubric Coverage
 
-| Criteria | Points |
-|---|---|
-| UI/UX clarity and visual hierarchy | 25 |
-| Code organization and widget decomposition | 20 |
-| Data handling and parsing | 20 |
-| Responsiveness (mobile/web) | 10 |
-| Error and edge-case handling | 10 |
-| Code readability and comments | 10 |
-| Bonus visual/animation polish | 5 |
+| Criteria                                   | Points |
+| ------------------------------------------ | ------ |
+| UI/UX clarity and visual hierarchy         | 25     |
+| Code organization and widget decomposition | 20     |
+| Data handling and parsing                  | 20     |
+| Responsiveness (mobile/web)                | 10     |
+| Error and edge-case handling               | 10     |
+| Code readability and comments              | 10     |
+| Bonus visual/animation polish              | 5      |
