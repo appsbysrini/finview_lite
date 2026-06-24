@@ -30,11 +30,6 @@ class ResponsiveLayout extends StatelessWidget {
   }
 }
 
-/// Returns whether [width] qualifies for tablet or web layout.
-bool isTabletWidth(double width) {
-  return width >= LayoutConstants.tabletBreakpoint;
-}
-
 /// Returns whether [width] requires stacked controls instead of a row.
 bool shouldStackControls(double width) {
   return width < LayoutConstants.compactControlsBreakpoint;

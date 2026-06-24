@@ -1,3 +1,5 @@
+import '../utils/json_parser.dart';
+
 /// A single investment holding with computed value and gain metrics.
 class Holding {
   /// Creates a [Holding] with the given market and cost data.
@@ -46,19 +48,9 @@ class Holding {
     return Holding(
       symbol: json['symbol'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      units: _parseDouble(json['units']),
-      avgCost: _parseDouble(json['avg_cost']),
-      currentPrice: _parseDouble(json['current_price']),
+      units: parseJsonDouble(json['units']),
+      avgCost: parseJsonDouble(json['avg_cost']),
+      currentPrice: parseJsonDouble(json['current_price']),
     );
-  }
-
-  static double _parseDouble(dynamic value) {
-    if (value == null) {
-      return 0.0;
-    }
-    if (value is num) {
-      return value.toDouble();
-    }
-    return double.tryParse(value.toString()) ?? 0.0;
   }
 }

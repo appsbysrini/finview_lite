@@ -18,17 +18,26 @@ class AllocationPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: AllocationChartConstants.chartAspectRatio,
-      child: PieChart(
-        PieChartData(
-          borderData: FlBorderData(show: false),
-          sectionsSpace: AllocationChartConstants.sectionsSpace,
-          centerSpaceRadius: AllocationChartConstants.centerSpaceRadius,
-          sections: _buildSections(),
+    final description = slices
+        .map((slice) => '${slice.symbol} ${slice.percentage.toStringAsFixed(1)}%')
+        .join(', ');
+
+    return Semantics(
+      label: 'Portfolio allocation chart. $description',
+      child: ExcludeSemantics(
+        child: AspectRatio(
+          aspectRatio: AllocationChartConstants.chartAspectRatio,
+          child: PieChart(
+            PieChartData(
+              borderData: FlBorderData(show: false),
+              sectionsSpace: AllocationChartConstants.sectionsSpace,
+              centerSpaceRadius: AllocationChartConstants.centerSpaceRadius,
+              sections: _buildSections(),
+            ),
+            duration: AnimationConstants.chart,
+            curve: AnimationConstants.entranceCurve,
+          ),
         ),
-        duration: AnimationConstants.chart,
-        curve: AnimationConstants.entranceCurve,
       ),
     );
   }

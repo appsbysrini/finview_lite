@@ -24,6 +24,7 @@ class ChartNoDataPlaceholder extends StatelessWidget {
             Icons.donut_large_outlined,
             size: theme.textTheme.headlineMedium?.fontSize,
             color: theme.colorScheme.onSurfaceVariant,
+            semanticLabel: 'No chart data',
           ),
           const SizedBox(height: _iconSpacing),
           Text(

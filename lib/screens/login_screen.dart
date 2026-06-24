@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/auth_provider.dart';
 import '../utils/layout_constants.dart';
 import '../utils/prefs_keys.dart';
+import '../providers/login_provider.dart';
+import '../widgets/app_loading_indicator.dart';
 
 /// Horizontal padding around the login form.
 const _formPadding = 24.0;
 
 /// Vertical spacing between form fields.
 const _fieldSpacing = 16.0;
-
-/// Validation or credential error shown on the login form.
-final loginErrorProvider = StateProvider<String?>(
-  (ref) => null,
-);
-
-/// Whether a login attempt is currently in progress.
-final loginSubmittingProvider = StateProvider<bool>(
-  (ref) => false,
-);
 
 /// Mock login screen with persisted session support.
 class LoginScreen extends ConsumerStatefulWidget {
@@ -113,6 +104,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         labelText: 'Username',
                         border: OutlineInputBorder(),
                       ),
+                      autofillHints: const [AutofillHints.username],
                       textInputAction: TextInputAction.next,
                       enabled: !isSubmitting,
                       validator: (value) {
@@ -129,6 +121,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         labelText: 'PIN',
                         border: OutlineInputBorder(),
                       ),
+                      autofillHints: const [AutofillHints.password],
                       obscureText: true,
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.done,
@@ -143,25 +136,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     if (errorMessage != null) ...[
                       const SizedBox(height: _fieldSpacing),
-                      Text(
-                        errorMessage,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.error,
+                      Semantics(
+                        liveRegion: true,
+                        child: Text(
+                          errorMessage,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.error,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ],
                     const SizedBox(height: _fieldSpacing * 1.5),
                     FilledButton(
                       onPressed: isSubmitting ? null : _submitLogin,
                       child: isSubmitting
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                              ),
-                            )
+                          ? const AppLoadingIndicator()
                           : const Text('Sign In'),
                     ),
                     const SizedBox(height: _fieldSpacing),

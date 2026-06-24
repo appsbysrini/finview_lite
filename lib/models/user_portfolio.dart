@@ -1,3 +1,4 @@
+import '../utils/json_parser.dart';
 import 'holding.dart';
 
 /// The user's complete portfolio loaded from local JSON.
@@ -22,6 +23,17 @@ class UserPortfolio {
   /// List of individual holdings; may be empty.
   final List<Holding> holdings;
 
+  /// Total amount invested, derived from value and gain.
+  double get investedValue => portfolioValue - totalGain;
+
+  /// Percentage gain or loss relative to [investedValue].
+  double get gainPercent {
+    if (investedValue == 0) {
+      return 0.0;
+    }
+    return (totalGain / investedValue) * 100;
+  }
+
   /// Parses a [UserPortfolio] from JSON, falling back to safe defaults for null fields.
   factory UserPortfolio.fromJson(Map<String, dynamic> json) {
     final holdingsJson = json['holdings'];
@@ -34,19 +46,9 @@ class UserPortfolio {
 
     return UserPortfolio(
       user: json['user'] as String? ?? '',
-      portfolioValue: _parseDouble(json['portfolio_value']),
-      totalGain: _parseDouble(json['total_gain']),
+      portfolioValue: parseJsonDouble(json['portfolio_value']),
+      totalGain: parseJsonDouble(json['total_gain']),
       holdings: holdings,
     );
-  }
-
-  static double _parseDouble(dynamic value) {
-    if (value == null) {
-      return 0.0;
-    }
-    if (value is num) {
-      return value.toDouble();
-    }
-    return double.tryParse(value.toString()) ?? 0.0;
   }
 }

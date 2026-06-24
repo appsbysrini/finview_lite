@@ -6,6 +6,8 @@ import '../providers/theme_provider.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login_screen.dart';
 import '../utils/app_themes.dart';
+import '../widgets/app_loading_indicator.dart';
+import '../widgets/portfolio_error_view.dart';
 
 /// Bootstraps theme, auth, and routes to login or dashboard.
 class AppShell extends ConsumerWidget {
@@ -18,23 +20,29 @@ class AppShell extends ConsumerWidget {
     final authAsync = ref.watch(authProvider);
 
     return themeAsync.when(
-      loading: () => _buildBootstrapApp(
+      loading: () => _FinViewMaterialApp(
         home: const _BootstrapLoadingScreen(),
       ),
-      error: (error, stackTrace) => _buildBootstrapApp(
-        home: _BootstrapErrorScreen(message: error.toString()),
+      error: (error, stackTrace) => _FinViewMaterialApp(
+        home: PortfolioErrorView(
+          title: 'Unable to start app',
+          message: error.toString(),
+        ),
       ),
       data: (themeMode) {
         return authAsync.when(
-          loading: () => _buildThemedApp(
+          loading: () => _FinViewMaterialApp(
             themeMode: themeMode,
             home: const _BootstrapLoadingScreen(),
           ),
-          error: (error, stackTrace) => _buildThemedApp(
+          error: (error, stackTrace) => _FinViewMaterialApp(
             themeMode: themeMode,
-            home: _BootstrapErrorScreen(message: error.toString()),
+            home: PortfolioErrorView(
+              title: 'Unable to start app',
+              message: error.toString(),
+            ),
           ),
-          data: (isLoggedIn) => _buildThemedApp(
+          data: (isLoggedIn) => _FinViewMaterialApp(
             themeMode: themeMode,
             home: isLoggedIn
                 ? const DashboardScreen()
@@ -44,20 +52,19 @@ class AppShell extends ConsumerWidget {
       },
     );
   }
+}
 
-  Widget _buildBootstrapApp({required Widget home}) {
-    return MaterialApp(
-      title: 'FinView Lite',
-      theme: AppThemes.light,
-      darkTheme: AppThemes.dark,
-      home: home,
-    );
-  }
+class _FinViewMaterialApp extends StatelessWidget {
+  const _FinViewMaterialApp({
+    required this.home,
+    this.themeMode,
+  });
 
-  Widget _buildThemedApp({
-    required ThemeMode themeMode,
-    required Widget home,
-  }) {
+  final Widget home;
+  final ThemeMode? themeMode;
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FinView Lite',
       theme: AppThemes.light,
@@ -75,28 +82,7 @@ class _BootstrapLoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-}
-
-class _BootstrapErrorScreen extends StatelessWidget {
-  const _BootstrapErrorScreen({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text(
-            'Unable to start app:\n$message',
-            textAlign: TextAlign.center,
-          ),
-        ),
+        child: AppLoadingIndicator(),
       ),
     );
   }

@@ -7,6 +7,7 @@ import '../providers/portfolio_provider.dart';
 import '../providers/portfolio_refresh_provider.dart';
 import '../providers/theme_provider.dart';
 import '../utils/layout_constants.dart';
+import '../widgets/app_loading_indicator.dart';
 import '../widgets/dashboard_body.dart';
 import '../widgets/portfolio_error_view.dart';
 import '../widgets/portfolio_header.dart';
@@ -29,7 +30,7 @@ class DashboardScreen extends ConsumerWidget {
           if (isRefreshing)
             const Padding(
               padding: EdgeInsets.only(right: 8),
-              child: _RefreshIndicatorIcon(),
+              child: AppLoadingIndicator(),
             ),
           IconButton(
             tooltip: isDarkMode ? 'Switch to light mode' : 'Switch to dark mode',
@@ -51,7 +52,7 @@ class DashboardScreen extends ConsumerWidget {
       ),
       body: portfolioAsync.when(
         loading: () => const Center(
-          child: CircularProgressIndicator(),
+          child: AppLoadingIndicator(),
         ),
         error: (error, stackTrace) => PortfolioErrorView(
           message: error.toString(),
@@ -61,19 +62,6 @@ class DashboardScreen extends ConsumerWidget {
           isRefreshing: isRefreshing,
         ),
       ),
-    );
-  }
-}
-
-class _RefreshIndicatorIcon extends StatelessWidget {
-  const _RefreshIndicatorIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 20,
-      height: 20,
-      child: CircularProgressIndicator(strokeWidth: 2),
     );
   }
 }
@@ -93,6 +81,7 @@ class _PortfolioContent extends ConsumerWidget {
       children: [
         RefreshIndicator(
           onRefresh: () => ref.read(portfolioProvider.notifier).refresh(),
+          semanticsLabel: 'Refresh portfolio',
           child: SafeArea(
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

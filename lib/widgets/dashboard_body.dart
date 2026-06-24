@@ -4,6 +4,7 @@ import '../models/user_portfolio.dart';
 import '../utils/layout_constants.dart';
 import 'allocation_chart.dart';
 import 'holdings_list.dart';
+import 'responsive_layout.dart';
 
 /// Mobile dashboard sections stacked in a single column.
 class DashboardMobileBody extends StatelessWidget {
@@ -70,14 +71,9 @@ class DashboardBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth >= LayoutConstants.tabletBreakpoint) {
-          return DashboardTabletBody(portfolio: portfolio);
-        }
-
-        return DashboardMobileBody(portfolio: portfolio);
-      },
+    return ResponsiveLayout(
+      mobile: DashboardMobileBody(portfolio: portfolio),
+      tablet: DashboardTabletBody(portfolio: portfolio),
     );
   }
 }

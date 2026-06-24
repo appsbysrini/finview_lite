@@ -4,6 +4,7 @@ import '../models/holding.dart';
 import '../providers/return_toggle_provider.dart';
 import '../utils/animation_constants.dart';
 import '../utils/formatters.dart';
+import '../utils/gain_display.dart';
 
 /// Internal padding for a holding card.
 const _cardPadding = 16.0;
@@ -32,72 +33,75 @@ class HoldingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isPositiveGain = holding.gainAmount >= 0;
-    final gainColor = isPositiveGain
-        ? theme.colorScheme.primary
-        : theme.colorScheme.error;
-    final returnText = displayMode == ReturnDisplayMode.amount
-        ? formatGainAmount(holding.gainAmount)
-        : formatPercent(holding.gainPercent);
+    final gainColor = gainColorFor(theme, holding.gainAmount);
+    final returnText = formatReturnValue(
+      gainAmount: holding.gainAmount,
+      gainPercent: holding.gainPercent,
+      displayMode: displayMode,
+    );
 
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_cardRadius),
-        side: BorderSide(
-          color: theme.colorScheme.outlineVariant,
+    return Semantics(
+      label:
+          '${holding.symbol}, ${holding.name}, value ${formatCurrency(holding.currentValue)}, return $returnText',
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_cardRadius),
+          side: BorderSide(
+            color: theme.colorScheme.outlineVariant,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(_cardPadding),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Padding(
+          padding: const EdgeInsets.all(_cardPadding),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      holding.symbol,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: _rowSpacing),
+                    Text(
+                      holding.name,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    holding.symbol,
+                    formatCurrency(holding.currentValue),
                     style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: _rowSpacing),
-                  Text(
-                    holding.name,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                  AnimatedSwitcher(
+                    duration: AnimationConstants.medium,
+                    switchInCurve: AnimationConstants.entranceCurve,
+                    child: Text(
+                      returnText,
+                      key: ValueKey<String>(returnText),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: gainColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  formatCurrency(holding.currentValue),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: _rowSpacing),
-                AnimatedSwitcher(
-                  duration: AnimationConstants.medium,
-                  switchInCurve: AnimationConstants.entranceCurve,
-                  child: Text(
-                    returnText,
-                    key: ValueKey<String>(returnText),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: gainColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

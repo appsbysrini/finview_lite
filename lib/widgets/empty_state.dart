@@ -24,6 +24,7 @@ class EmptyStateWidget extends StatelessWidget {
             Icons.pie_chart_outline,
             size: theme.textTheme.headlineLarge?.fontSize,
             color: theme.colorScheme.onSurfaceVariant,
+            semanticLabel: 'No holdings',
           ),
           const SizedBox(height: _iconSpacing),
           Text(

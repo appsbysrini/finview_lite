@@ -19,9 +19,3 @@ final allocationHasDataProvider = Provider<bool>((ref) {
   final slices = ref.watch(allocationSlicesProvider);
   return hasAllocationData(slices);
 });
-
-/// Total current value represented across all allocation slices.
-final allocationTotalValueProvider = Provider<double>((ref) {
-  final slices = ref.watch(allocationSlicesProvider);
-  return slices.fold<double>(0, (sum, slice) => sum + slice.value);
-});
