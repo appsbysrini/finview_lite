@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/user_portfolio.dart';
+import '../utils/portfolio_simulator.dart';
+import 'portfolio_refresh_provider.dart';
 
 /// Asset path for the bundled portfolio JSON file.
 const portfolioAssetPath = 'assets/portfolio.json';
@@ -15,10 +17,26 @@ class PortfolioNotifier extends AsyncNotifier<UserPortfolio> {
     return _loadPortfolio();
   }
 
-  /// Reloads portfolio data from [portfolioAssetPath].
+  /// Simulates a portfolio refresh with updated holding prices.
   Future<void> refresh() async {
-    state = const AsyncLoading<UserPortfolio>();
-    state = await AsyncValue.guard(_loadPortfolio);
+    final currentPortfolio = state.value;
+    if (currentPortfolio == null) {
+      state = const AsyncLoading<UserPortfolio>();
+      state = await AsyncValue.guard(_loadPortfolio);
+      return;
+    }
+
+    ref.read(portfolioRefreshingProvider.notifier).state = true;
+
+    try {
+      await simulateRefreshDelay();
+      final refreshedPortfolio = simulatePriceRefresh(currentPortfolio);
+      state = AsyncData(refreshedPortfolio);
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
+    } finally {
+      ref.read(portfolioRefreshingProvider.notifier).state = false;
+    }
   }
 
   Future<UserPortfolio> _loadPortfolio() async {

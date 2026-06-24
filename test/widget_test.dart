@@ -5,7 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:finview_lite/main.dart';
 import 'package:finview_lite/models/holding.dart';
 import 'package:finview_lite/models/user_portfolio.dart';
+import 'package:finview_lite/providers/auth_provider.dart';
 import 'package:finview_lite/providers/portfolio_provider.dart';
+import 'package:finview_lite/providers/theme_provider.dart';
 
 void main() {
   testWidgets('dashboard shows portfolio header when provider succeeds',
@@ -36,6 +38,8 @@ void main() {
           portfolioProvider.overrideWith(
             () => _FakePortfolioNotifier(portfolio),
           ),
+          authProvider.overrideWith(_FakeAuthNotifier.new),
+          themeModeProvider.overrideWith(_FakeThemeModeNotifier.new),
         ],
         child: const FinViewLiteApp(),
       ),
@@ -58,4 +62,14 @@ class _FakePortfolioNotifier extends PortfolioNotifier {
 
   @override
   Future<UserPortfolio> build() async => _portfolio;
+}
+
+class _FakeAuthNotifier extends AuthNotifier {
+  @override
+  Future<bool> build() async => true;
+}
+
+class _FakeThemeModeNotifier extends ThemeModeNotifier {
+  @override
+  Future<ThemeMode> build() async => ThemeMode.light;
 }
