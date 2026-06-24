@@ -24,6 +24,9 @@ dependencies:
   # Persistence
   shared_preferences: ^2.5.3
 
+  # Localisation / number formatting
+  intl: ^0.19.0
+
 dev_dependencies:
   # Testing
   flutter_test:

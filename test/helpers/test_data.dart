@@ -30,13 +30,25 @@ abstract final class TestData {
     currentPrice: 800,
   );
 
-  /// Holding with zero invested value for division-by-zero checks.
+  /// Holding with zero invested value (avgCost = 0) for division-by-zero checks.
   static const zeroInvested = Holding(
     symbol: 'FREE',
     name: 'Free Shares',
     units: 10,
     avgCost: 0,
     currentPrice: 100,
+  );
+
+  /// Holding with zero units — mirrors the IRFC entry in portfolio.json.
+  ///
+  /// Both [Holding.currentValue] and [Holding.investedValue] are 0, exercising
+  /// the [Holding.gainPercent] zero-division guard from the units side.
+  static const zeroUnits = Holding(
+    symbol: 'IRFC',
+    name: 'Indian Railway Finance',
+    units: 0,
+    avgCost: 180,
+    currentPrice: 195,
   );
 
   /// Portfolio with multiple holdings.

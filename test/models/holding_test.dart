@@ -62,8 +62,8 @@ void main() {
       expect(result, closeTo(6.25, 0.001));
     });
 
-    test('returns zero gainPercent when investedValue is zero', () {
-      // Arrange
+    test('returns zero gainPercent when investedValue is zero (avgCost = 0)', () {
+      // Arrange — avgCost=0 drives investedValue to 0
       const holding = TestData.zeroInvested;
 
       // Act
@@ -71,6 +71,17 @@ void main() {
 
       // Assert
       expect(result, 0.0);
+    });
+
+    test('returns zero for all computed fields when units are zero', () {
+      // Arrange — mirrors the IRFC entry in portfolio.json (units=0, avgCost=180)
+      const holding = TestData.zeroUnits;
+
+      // Act & Assert — no division-by-zero; all values cleanly zero
+      expect(holding.currentValue, 0.0);
+      expect(holding.investedValue, 0.0);
+      expect(holding.gainAmount, 0.0);
+      expect(holding.gainPercent, 0.0);
     });
   });
 

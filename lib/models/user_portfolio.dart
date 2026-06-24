@@ -14,16 +14,27 @@ class UserPortfolio {
   /// Display name of the portfolio owner.
   final String user;
 
-  /// Total current portfolio value from JSON.
+  /// Total current portfolio value sourced directly from JSON.
+  ///
+  /// **Assumption:** this value is expected to equal the sum of
+  /// [Holding.currentValue] across all [holdings]. No cross-validation is
+  /// performed at parse time — if the JSON is edited manually and the
+  /// top-level totals drift from the per-holding data, the portfolio header
+  /// summary and per-holding math will disagree. Consider recomputing from
+  /// holdings if consistency is a hard requirement.
   final double portfolioValue;
 
-  /// Total gain across the portfolio from JSON.
+  /// Total gain across the portfolio sourced directly from JSON.
+  ///
+  /// **Assumption:** this value is expected to equal the sum of
+  /// [Holding.gainAmount] across all [holdings]. See [portfolioValue] for
+  /// the same cross-validation caveat.
   final double totalGain;
 
   /// List of individual holdings; may be empty.
   final List<Holding> holdings;
 
-  /// Total amount invested, derived from value and gain.
+  /// Total amount invested, derived as [portfolioValue] − [totalGain].
   double get investedValue => portfolioValue - totalGain;
 
   /// Percentage gain or loss relative to [investedValue].

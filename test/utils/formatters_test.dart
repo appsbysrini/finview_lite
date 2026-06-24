@@ -3,12 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('formatCurrency', () {
-    test('formats positive values with rupee symbol and grouping', () {
+    test('formats positive values with Indian rupee grouping (lakh/crore)', () {
+      // 1,00,000 — Indian grouping: last 3 digits, then groups of 2.
       // Act
       final result = formatCurrency(100000);
 
       // Assert
-      expect(result, '₹100,000');
+      expect(result, '₹1,00,000');
+    });
+
+    test('formats crore-range values with correct Indian grouping', () {
+      // 1,09,64,000
+      // Act
+      final result = formatCurrency(10964000);
+
+      // Assert
+      expect(result, '₹1,09,64,000');
     });
 
     test('formats negative values with leading minus sign', () {
