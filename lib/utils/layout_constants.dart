@@ -11,4 +11,7 @@ abstract final class LayoutConstants {
 
   /// Spacing between columns in a two-column layout.
   static const columnSpacing = 16.0;
+
+  /// Width below which header controls stack vertically.
+  static const compactControlsBreakpoint = 360.0;
 }

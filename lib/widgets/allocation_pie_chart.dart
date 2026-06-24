@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../models/allocation_slice.dart';
 import '../utils/allocation_builder.dart';
+import '../utils/animation_constants.dart';
 
 /// Donut chart rendering allocation slices with fl_chart.
 class AllocationPieChart extends StatelessWidget {
@@ -26,6 +27,8 @@ class AllocationPieChart extends StatelessWidget {
           centerSpaceRadius: AllocationChartConstants.centerSpaceRadius,
           sections: _buildSections(),
         ),
+        duration: AnimationConstants.chart,
+        curve: AnimationConstants.entranceCurve,
       ),
     );
   }

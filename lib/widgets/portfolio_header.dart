@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../models/user_portfolio.dart';
+import '../utils/animation_constants.dart';
 import '../utils/formatters.dart';
+import 'animated_appearance.dart';
 
 /// Horizontal padding applied inside the portfolio summary card.
 const _cardPadding = 20.0;
@@ -31,67 +33,80 @@ class PortfolioHeader extends StatelessWidget {
     final gainColor = isPositiveGain
         ? theme.colorScheme.primary
         : theme.colorScheme.error;
+    final gainSummary =
+        '${formatGainAmount(portfolio.totalGain)} (${formatPercent(gainPercent)})';
 
-    return Card(
-      elevation: 0,
-      color: theme.colorScheme.primaryContainer.withValues(alpha: 0.35),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_cardRadius),
-        side: BorderSide(
-          color: theme.colorScheme.outlineVariant,
+    return AnimatedAppearance(
+      child: Card(
+        elevation: 0,
+        color: theme.colorScheme.primaryContainer.withValues(alpha: 0.35),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_cardRadius),
+          side: BorderSide(
+            color: theme.colorScheme.outlineVariant,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(_cardPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Portfolio',
-              style: theme.textTheme.labelLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-            const SizedBox(height: _sectionSpacing),
-            Text(
-              portfolio.user,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: _sectionSpacing * 2),
-            Text(
-              formatCurrency(portfolio.portfolioValue),
-              style: theme.textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: _sectionSpacing * 1.5),
-            Row(
-              children: [
-                Icon(
-                  isPositiveGain ? Icons.trending_up : Icons.trending_down,
-                  size: theme.textTheme.titleMedium?.fontSize,
-                  color: gainColor,
+        child: Padding(
+          padding: const EdgeInsets.all(_cardPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Portfolio',
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-                const SizedBox(width: _sectionSpacing),
-                Text(
-                  '${formatGainAmount(portfolio.totalGain)} (${formatPercent(gainPercent)})',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: gainColor,
-                    fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: _sectionSpacing),
+              AnimatedValueText(
+                valueKey: portfolio.user,
+                text: portfolio.user,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: _sectionSpacing * 2),
+              AnimatedValueText(
+                valueKey: portfolio.portfolioValue,
+                text: formatCurrency(portfolio.portfolioValue),
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: _sectionSpacing * 1.5),
+              Row(
+                children: [
+                  AnimatedSwitcher(
+                    duration: AnimationConstants.medium,
+                    child: Icon(
+                      isPositiveGain ? Icons.trending_up : Icons.trending_down,
+                      key: ValueKey<bool>(isPositiveGain),
+                      size: theme.textTheme.titleMedium?.fontSize,
+                      color: gainColor,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: _sectionSpacing),
-            Text(
-              'Total return',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+                  const SizedBox(width: _sectionSpacing),
+                  Flexible(
+                    child: AnimatedValueText(
+                      valueKey: gainSummary,
+                      text: gainSummary,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: gainColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: _sectionSpacing),
+              Text(
+                'Total return',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

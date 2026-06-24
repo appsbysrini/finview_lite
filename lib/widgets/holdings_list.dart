@@ -4,9 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/holding.dart';
 import '../providers/return_toggle_provider.dart';
 import '../providers/sort_provider.dart';
+import '../utils/layout_constants.dart';
+import 'animated_appearance.dart';
 import 'empty_state.dart';
 import 'holding_card.dart';
 import 'return_toggle.dart';
+import 'responsive_layout.dart';
 
 /// Vertical spacing between major sections in the holdings list.
 const _sectionSpacing = 16.0;
@@ -47,80 +50,151 @@ class HoldingsList extends ConsumerWidget {
     final displayMode = ref.watch(returnToggleProvider);
     final sortedHoldings = sortHoldings(holdings, sort);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return AnimatedAppearance(
+      index: 1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const HoldingsListHeader(),
+          const SizedBox(height: _sectionSpacing),
+          if (sortedHoldings.isEmpty)
+            const EmptyStateWidget()
+          else
+            _AnimatedHoldingsCards(
+              holdings: sortedHoldings,
+              displayMode: displayMode,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Header row with responsive layout for title and controls.
+class HoldingsListHeader extends ConsumerWidget {
+  /// Creates the holdings section header.
+  const HoldingsListHeader({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sort = ref.watch(sortProvider);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final stackControls = shouldStackControls(constraints.maxWidth);
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (stackControls)
+              _StackedHoldingsTitleRow()
+            else
+              const _InlineHoldingsTitleRow(),
+            const SizedBox(height: _sectionSpacing),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SegmentedButton<HoldingSort>(
+                segments: const [
+                  ButtonSegment(
+                    value: HoldingSort.byValue,
+                    label: Text('Value'),
+                  ),
+                  ButtonSegment(
+                    value: HoldingSort.byGain,
+                    label: Text('Gain'),
+                  ),
+                  ButtonSegment(
+                    value: HoldingSort.byName,
+                    label: Text('Name'),
+                  ),
+                ],
+                selected: {sort},
+                onSelectionChanged: (selection) {
+                  ref.read(sortProvider.notifier).state = selection.first;
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _InlineHoldingsTitleRow extends StatelessWidget {
+  const _InlineHoldingsTitleRow();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Row(
       children: [
-        _HoldingsListHeader(sort: sort),
-        const SizedBox(height: _sectionSpacing),
-        if (sortedHoldings.isEmpty)
-          const EmptyStateWidget()
-        else
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: sortedHoldings.length,
-            separatorBuilder: (context, _) =>
-                const SizedBox(height: _cardSpacing),
-            itemBuilder: (context, index) {
-              return HoldingCard(
-                holding: sortedHoldings[index],
-                displayMode: displayMode,
-              );
-            },
+        Flexible(
+          child: Text(
+            'Holdings',
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
+        ),
+        const SizedBox(width: LayoutConstants.columnSpacing / 2),
+        const ReturnToggle(),
       ],
     );
   }
 }
 
-class _HoldingsListHeader extends ConsumerWidget {
-  const _HoldingsListHeader({
-    required this.sort,
-  });
-
-  final HoldingSort sort;
-
+class _StackedHoldingsTitleRow extends StatelessWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Text(
-              'Holdings',
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const Spacer(),
-            const ReturnToggle(),
-          ],
+        Text(
+          'Holdings',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        const SizedBox(height: _sectionSpacing),
-        SegmentedButton<HoldingSort>(
-          segments: const [
-            ButtonSegment(
-              value: HoldingSort.byValue,
-              label: Text('Value'),
-            ),
-            ButtonSegment(
-              value: HoldingSort.byGain,
-              label: Text('Gain'),
-            ),
-            ButtonSegment(
-              value: HoldingSort.byName,
-              label: Text('Name'),
-            ),
-          ],
-          selected: {sort},
-          onSelectionChanged: (selection) {
-            ref.read(sortProvider.notifier).state = selection.first;
-          },
+        const SizedBox(height: _sectionSpacing / 2),
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: ReturnToggle(),
         ),
       ],
+    );
+  }
+}
+
+class _AnimatedHoldingsCards extends StatelessWidget {
+  const _AnimatedHoldingsCards({
+    required this.holdings,
+    required this.displayMode,
+  });
+
+  final List<Holding> holdings;
+  final ReturnDisplayMode displayMode;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: holdings.length,
+      separatorBuilder: (context, _) => const SizedBox(height: _cardSpacing),
+      itemBuilder: (context, index) {
+        return AnimatedAppearance(
+          index: index + 2,
+          child: HoldingCard(
+            holding: holdings[index],
+            displayMode: displayMode,
+          ),
+        );
+      },
     );
   }
 }

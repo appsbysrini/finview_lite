@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/holding.dart';
 import '../providers/return_toggle_provider.dart';
+import '../utils/animation_constants.dart';
 import '../utils/formatters.dart';
 
 /// Internal padding for a holding card.
@@ -82,11 +83,16 @@ class HoldingCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: _rowSpacing),
-                Text(
-                  returnText,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: gainColor,
-                    fontWeight: FontWeight.w600,
+                AnimatedSwitcher(
+                  duration: AnimationConstants.medium,
+                  switchInCurve: AnimationConstants.entranceCurve,
+                  child: Text(
+                    returnText,
+                    key: ValueKey<String>(returnText),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: gainColor,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
