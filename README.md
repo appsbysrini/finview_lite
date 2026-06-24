@@ -85,7 +85,7 @@ Session is persisted via SharedPreferences — you stay logged in across restart
 - **Portfolio header** — owner name, total current value (₹), gain/loss pill (₹ and %), plus a stats row showing total return %, invested value, and number of holdings.
 - **Allocation chart** — donut pie chart (fl_chart) with a centre total label and a side-by-side legend showing symbol, allocation %, and ₹ value per holding.
 - **Holdings list** — per-holding card with ticker avatar (colour-coded per symbol), company name, current value, and gain/loss return.
-- **Sort controls** — segmented button to sort holdings by Value, Gain, or Name.
+- **Sort controls** — sort icon beside the Holdings title opens a menu to sort by Value, Name, or Gains.
 - **Return toggle** — ₹ / % segmented button; switching animates the gain pill on each row via `AnimatedSwitcher`.
 - **Empty and error states** — dedicated full-screen views for load failure, empty holdings, and zero-value allocation.
 
@@ -116,8 +116,7 @@ Session is persisted via SharedPreferences — you stay logged in across restart
 │  │   [Donut chart + legend]    │   │  ← AllocationChart (fl_chart)
 │  └─────────────────────────────┘   │
 ├─────────────────────────────────────┤
-│  Holdings                  ₹  /  % │  ← ReturnToggle
-│  [ Value ]  [ Gain ]  [ Name ]     │  ← SortControls
+│  Holdings            ⇅      ₹  /  % │  ← SortControls + ReturnToggle
 │  ┌─────────────────────────────┐   │
 │  │ HD  HDFCBANK   ₹25,800     │   │  ← HoldingCard (staggered animation)
 │  │     HDFC Bank  +₹1,800     │   │
