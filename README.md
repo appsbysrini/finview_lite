@@ -40,7 +40,7 @@ flutter doctor
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/finview_lite.git
+git clone https://github.com/appsbysrini/finview_lite.git
 cd finview_lite
 
 # 2. Fetch dependencies
