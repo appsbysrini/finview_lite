@@ -16,7 +16,7 @@ A Flutter investment dashboard that lets users visualise their portfolio, asset 
 
 ## Demo recording
 
-[Watch screen recording](#) <!-- Replace with Loom / YouTube / Drive link -->
+[Watch screen recording](https://drive.google.com/file/d/1OH1cOK2cbfq15qdZcfgcZPVkRrc4prDb/view?usp=sharing)
 
 ---
 
