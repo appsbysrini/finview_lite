@@ -7,7 +7,8 @@ import 'package:finview_lite/models/user_portfolio.dart';
 import 'package:finview_lite/providers/portfolio_provider.dart';
 
 void main() {
-  testWidgets('shows portfolio data when provider succeeds', (tester) async {
+  testWidgets('dashboard shows portfolio header when provider succeeds',
+      (tester) async {
     const portfolio = UserPortfolio(
       user: 'Test User',
       portfolioValue: 100000,
@@ -36,7 +37,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Test User'), findsOneWidget);
-    expect(find.text('Holdings loaded: 1'), findsOneWidget);
+    expect(find.text('₹100,000'), findsOneWidget);
+    expect(find.textContaining('+₹5,000'), findsOneWidget);
   });
 }
 
