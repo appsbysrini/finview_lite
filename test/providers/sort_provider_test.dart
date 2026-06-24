@@ -24,7 +24,7 @@ void main() {
 
     test('updates when notifier state changes', () {
       // Act
-      container.read(sortProvider.notifier).state = HoldingSort.byGain;
+      container.read(sortProvider.notifier).setSort(HoldingSort.byGain);
 
       // Assert
       expect(container.read(sortProvider), HoldingSort.byGain);
@@ -33,7 +33,7 @@ void main() {
     test('supports all sort options', () {
       // Act & Assert
       for (final option in HoldingSort.values) {
-        container.read(sortProvider.notifier).state = option;
+        container.read(sortProvider.notifier).setSort(option);
         expect(container.read(sortProvider), option);
       }
     });

@@ -46,7 +46,7 @@ class SortControls extends ConsumerWidget {
         ],
         selected: {sort},
         onSelectionChanged: (selection) {
-          ref.read(sortProvider.notifier).state = selection.first;
+          ref.read(sortProvider.notifier).setSort(selection.first);
         },
       ),
     );

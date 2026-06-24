@@ -24,8 +24,9 @@ void main() {
 
     test('updates when notifier state changes', () {
       // Act
-      container.read(returnToggleProvider.notifier).state =
-          ReturnDisplayMode.percent;
+      container.read(returnToggleProvider.notifier).setDisplayMode(
+            ReturnDisplayMode.percent,
+          );
 
       // Assert
       expect(container.read(returnToggleProvider), ReturnDisplayMode.percent);
@@ -33,10 +34,12 @@ void main() {
 
     test('supports toggling between display modes', () {
       // Act
-      container.read(returnToggleProvider.notifier).state =
-          ReturnDisplayMode.percent;
-      container.read(returnToggleProvider.notifier).state =
-          ReturnDisplayMode.amount;
+      container.read(returnToggleProvider.notifier).setDisplayMode(
+            ReturnDisplayMode.percent,
+          );
+      container.read(returnToggleProvider.notifier).setDisplayMode(
+            ReturnDisplayMode.amount,
+          );
 
       // Assert
       expect(container.read(returnToggleProvider), ReturnDisplayMode.amount);

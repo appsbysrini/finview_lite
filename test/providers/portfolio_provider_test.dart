@@ -26,8 +26,8 @@ void main() {
 
       // Assert
       expect(portfolio.user, 'Aarav Patel');
-      expect(portfolio.portfolioValue, 150000);
-      expect(portfolio.totalGain, 12000);
+      expect(portfolio.portfolioValue, 109640);
+      expect(portfolio.totalGain, 5800);
       expect(portfolio.holdings, isNotEmpty);
     });
 

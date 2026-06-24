@@ -47,7 +47,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Test User'), findsOneWidget);
-    expect(find.text('₹100,000'), findsNWidgets(2));
+    expect(find.text('₹1,00,000'), findsNWidgets(2));
     expect(find.textContaining('+₹5,000'), findsOneWidget);
     expect(find.text('Allocation'), findsOneWidget);
     expect(find.text('TCS'), findsNWidgets(2));

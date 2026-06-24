@@ -40,24 +40,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
-    ref.read(loginErrorProvider.notifier).state = null;
+    ref.read(loginErrorProvider.notifier).setError(null);
 
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
     }
 
-    ref.read(loginSubmittingProvider.notifier).state = true;
+    ref.read(loginSubmittingProvider.notifier).setSubmitting(true);
 
     final success = await ref.read(authProvider.notifier).login(
           username: _usernameController.text,
           pin: _pinController.text,
         );
 
-    ref.read(loginSubmittingProvider.notifier).state = false;
+    ref.read(loginSubmittingProvider.notifier).setSubmitting(false);
 
     if (!success) {
-      ref.read(loginErrorProvider.notifier).state =
-          'Invalid username or PIN.';
+      ref.read(loginErrorProvider.notifier).setError(
+            'Invalid username or PIN.',
+          );
     }
   }
 

@@ -27,7 +27,7 @@ class PortfolioNotifier extends AsyncNotifier<UserPortfolio> {
       return;
     }
 
-    ref.read(portfolioRefreshingProvider.notifier).state = true;
+    ref.read(portfolioRefreshingProvider.notifier).setRefreshing(true);
 
     try {
       await simulateRefreshDelay();
@@ -36,7 +36,7 @@ class PortfolioNotifier extends AsyncNotifier<UserPortfolio> {
     } catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);
     } finally {
-      ref.read(portfolioRefreshingProvider.notifier).state = false;
+      ref.read(portfolioRefreshingProvider.notifier).setRefreshing(false);
     }
   }
 

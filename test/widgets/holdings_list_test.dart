@@ -51,7 +51,7 @@ void main() {
         tester,
         child: const HoldingsList(holdings: holdings),
         overrides: [
-          sortProvider.overrideWith((ref) => HoldingSort.byName),
+          sortProvider.overrideWith(_SortByNameNotifier.new),
         ],
       );
       await tester.pumpAndSettle();
@@ -74,9 +74,7 @@ void main() {
         tester,
         child: const HoldingsList(holdings: holdings),
         overrides: [
-          returnToggleProvider.overrideWith(
-            (ref) => ReturnDisplayMode.percent,
-          ),
+          returnToggleProvider.overrideWith(_PercentReturnToggleNotifier.new),
         ],
       );
       await tester.pumpAndSettle();
@@ -136,4 +134,16 @@ void main() {
       expect(find.text('Tata Consultancy'), findsOneWidget);
     });
   });
+}
+
+/// Test override that starts with name-based sorting.
+class _SortByNameNotifier extends SortNotifier {
+  @override
+  HoldingSort build() => HoldingSort.byName;
+}
+
+/// Test override that starts in percent return display mode.
+class _PercentReturnToggleNotifier extends ReturnToggleNotifier {
+  @override
+  ReturnDisplayMode build() => ReturnDisplayMode.percent;
 }

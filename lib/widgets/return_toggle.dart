@@ -40,7 +40,7 @@ class ReturnToggle extends ConsumerWidget {
       ],
       selected: {displayMode},
       onSelectionChanged: (selection) {
-        ref.read(returnToggleProvider.notifier).state = selection.first;
+        ref.read(returnToggleProvider.notifier).setDisplayMode(selection.first);
       },
     );
   }
