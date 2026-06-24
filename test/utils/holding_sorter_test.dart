@@ -72,5 +72,25 @@ void main() {
         originalOrder,
       );
     });
+
+    test('does not mutate the original list for all sort options', () {
+      // Arrange
+      final originalOrder = holdings.map((holding) => holding.symbol).toList();
+
+      // Act & Assert
+      for (final sort in holdingSortMenuOptions) {
+        sortHoldings(holdings, sort);
+        expect(
+          holdings.map((holding) => holding.symbol).toList(),
+          originalOrder,
+        );
+      }
+    });
+
+    test('returns empty list for all sort options when input is empty', () {
+      for (final sort in holdingSortMenuOptions) {
+        expect(sortHoldings(const [], sort), isEmpty);
+      }
+    });
   });
 }

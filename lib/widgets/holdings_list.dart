@@ -39,10 +39,9 @@ class HoldingsList extends ConsumerWidget {
         children: [
           SectionHeader(
             title: 'Holdings',
+            titleTrailing: const SortControls(),
             trailing: const ReturnToggle(),
           ),
-          const SizedBox(height: AppDesignTokens.spaceMd),
-          const SortControls(),
           const SizedBox(height: AppDesignTokens.spaceMd),
           if (sortedHoldings.isEmpty)
             const EmptyStateWidget()

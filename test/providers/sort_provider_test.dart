@@ -37,5 +37,17 @@ void main() {
         expect(container.read(sortProvider), option);
       }
     });
+
+    test('menu options include all sort values', () {
+      expect(holdingSortMenuOptions.length, HoldingSort.values.length);
+      expect(holdingSortMenuOptions.toSet(), HoldingSort.values.toSet());
+    });
+
+    test('updates to all menu sort options', () {
+      for (final option in holdingSortMenuOptions) {
+        container.read(sortProvider.notifier).setSort(option);
+        expect(container.read(sortProvider), option);
+      }
+    });
   });
 }

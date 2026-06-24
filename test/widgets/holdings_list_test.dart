@@ -116,7 +116,9 @@ void main() {
       expect(find.text('+6.3%'), findsOneWidget);
     });
 
-    testWidgets('re-sorts holdings when sort controls change', (tester) async {
+    testWidgets('re-sorts holdings when sort menu option is selected', (
+      tester,
+    ) async {
       // Arrange
       const holdings = [TestData.infy, TestData.tcs];
       await pumpWidgetWithProviders(
@@ -126,20 +128,94 @@ void main() {
       await tester.pumpAndSettle();
 
       // Act
-      await tester.tap(find.text('Name'));
+      await _selectSort(tester, 'Name');
+
+      // Assert
+      expect(
+        _visibleSymbolOrder(tester, const ['INFY', 'TCS']),
+        ['INFY', 'TCS'],
+      );
+    });
+
+    testWidgets('switches from one sort option to another via menu', (
+      tester,
+    ) async {
+      // Arrange
+      const holdings = [TestData.lossHolding, TestData.infy, TestData.tcs];
+      await pumpWidgetWithProviders(
+        tester,
+        child: const HoldingsList(holdings: holdings),
+      );
+      await tester.pumpAndSettle();
+      await _selectSort(tester, 'Gains');
+
+      // Act
+      await _selectSort(tester, 'Value');
+
+      // Assert
+      expect(
+        _visibleSymbolOrder(tester, const ['TCS', 'INFY', 'LOSS']),
+        ['TCS', 'INFY', 'LOSS'],
+      );
+    });
+
+    testWidgets('sorts holdings by sort provider override', (
+      tester,
+    ) async {
+      // Arrange
+      const holdings = [TestData.lossHolding, TestData.infy, TestData.tcs];
+
+      // Act
+      await pumpWidgetWithProviders(
+        tester,
+        child: const HoldingsList(holdings: holdings),
+        overrides: [
+          sortProvider.overrideWith(_SortByGainNotifier.new),
+        ],
+      );
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('Infosys Ltd'), findsOneWidget);
-      expect(find.text('Tata Consultancy'), findsOneWidget);
+      expect(
+        _visibleSymbolOrder(tester, const ['INFY', 'TCS', 'LOSS']),
+        ['INFY', 'TCS', 'LOSS'],
+      );
     });
   });
+}
+
+Future<void> _selectSort(WidgetTester tester, String label) async {
+  await tester.tap(find.byIcon(Icons.sort_rounded));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text(label));
+  await tester.pumpAndSettle();
+}
+
+List<String> _visibleSymbolOrder(WidgetTester tester, List<String> symbols) {
+  final positionedSymbols = symbols
+      .where((symbol) => find.text(symbol).evaluate().isNotEmpty)
+      .map(
+        (symbol) => (
+          symbol,
+          tester.getTopLeft(find.text(symbol)).dy,
+        ),
+      )
+      .toList()
+    ..sort((a, b) => a.$2.compareTo(b.$2));
+
+  return positionedSymbols.map((entry) => entry.$1).toList();
 }
 
 /// Test override that starts with name-based sorting.
 class _SortByNameNotifier extends SortNotifier {
   @override
   HoldingSort build() => HoldingSort.byName;
+}
+
+/// Test override that starts with gain-based sorting.
+class _SortByGainNotifier extends SortNotifier {
+  @override
+  HoldingSort build() => HoldingSort.byGain;
 }
 
 /// Test override that starts in percent return display mode.

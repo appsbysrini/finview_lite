@@ -8,11 +8,15 @@ class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
     required this.title,
+    this.titleTrailing,
     this.trailing,
   });
 
   /// Section title text.
   final String title;
+
+  /// Optional widget placed beside the title, such as a sort button.
+  final Widget? titleTrailing;
 
   /// Optional trailing widget such as a toggle.
   final Widget? trailing;
@@ -26,9 +30,20 @@ class SectionHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Text(
-            title,
-            style: theme.textTheme.titleLarge,
+          child: Row(
+            children: [
+              Flexible(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleLarge,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (titleTrailing != null) ...[
+                const SizedBox(width: AppDesignTokens.spaceXs),
+                titleTrailing!,
+              ],
+            ],
           ),
         ),
         if (trailing != null) ...[

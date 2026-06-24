@@ -12,6 +12,13 @@ enum HoldingSort {
   byName,
 }
 
+/// Sort options shown in the holdings sort menu, in display order.
+const holdingSortMenuOptions = [
+  HoldingSort.byValue,
+  HoldingSort.byName,
+  HoldingSort.byGain,
+];
+
 /// Holds the currently selected holdings sort order.
 class SortNotifier extends Notifier<HoldingSort> {
   /// Returns the default sort order when the provider is first watched.
