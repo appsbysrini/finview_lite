@@ -46,7 +46,7 @@ void main() {
       // Assert
       expect(find.text('Allocation'), findsOneWidget);
       expect(find.byType(ChartNoDataPlaceholder), findsOneWidget);
-      expect(find.text('No Data'), findsOneWidget);
+      expect(find.text('No data'), findsOneWidget);
     });
 
     testWidgets('shows no data placeholder when all holdings are zero value',

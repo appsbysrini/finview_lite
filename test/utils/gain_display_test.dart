@@ -1,30 +1,35 @@
 import 'package:finview_lite/providers/return_toggle_provider.dart';
-import 'package:finview_lite/utils/app_themes.dart';
+import 'package:finview_lite/utils/app_design_tokens.dart';
 import 'package:finview_lite/utils/gain_display.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+ThemeData _testTheme(FinViewColors colors) {
+  return ThemeData(extensions: [colors]);
+}
 
 void main() {
   group('gainColorFor', () {
-    test('returns primary color for non-negative gain', () {
+    test('returns profit color for non-negative gain', () {
       // Arrange
-      final theme = AppThemes.light;
+      final theme = _testTheme(FinViewColors.light);
 
       // Act
       final color = gainColorFor(theme, 100);
 
       // Assert
-      expect(color, theme.colorScheme.primary);
+      expect(color, FinViewColors.light.profit);
     });
 
-    test('returns error color for negative gain', () {
+    test('returns loss color for negative gain', () {
       // Arrange
-      final theme = AppThemes.light;
+      final theme = _testTheme(FinViewColors.light);
 
       // Act
       final color = gainColorFor(theme, -50);
 
       // Assert
-      expect(color, theme.colorScheme.error);
+      expect(color, FinViewColors.light.loss);
     });
   });
 

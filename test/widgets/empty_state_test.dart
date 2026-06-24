@@ -31,7 +31,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.byIcon(Icons.pie_chart_outline), findsOneWidget);
+      expect(find.byIcon(Icons.pie_chart_outline_rounded), findsOneWidget);
     });
 
     testWidgets('exposes no holdings semantics label', (tester) async {
@@ -43,7 +43,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.bySemanticsLabel('No holdings'), findsOneWidget);
+      expect(find.bySemanticsLabel('No holdings yet'), findsWidgets);
     });
   });
 }

@@ -15,7 +15,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('No Data'), findsOneWidget);
+      expect(find.text('No data'), findsOneWidget);
       expect(
         find.text('Allocation requires holdings with a current value.'),
         findsOneWidget,

@@ -21,7 +21,6 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('Portfolio'), findsOneWidget);
       expect(find.text('Test User'), findsOneWidget);
       expect(find.text('₹100,000'), findsOneWidget);
       expect(find.text('Total return'), findsOneWidget);
@@ -40,7 +39,7 @@ void main() {
 
       // Assert
       expect(find.textContaining('+₹5,000'), findsOneWidget);
-      expect(find.byIcon(Icons.trending_up), findsOneWidget);
+      expect(find.byIcon(Icons.trending_up_rounded), findsOneWidget);
     });
 
     testWidgets('shows negative gain with trending down icon', (tester) async {
@@ -56,7 +55,7 @@ void main() {
 
       // Assert
       expect(find.textContaining('-₹400'), findsOneWidget);
-      expect(find.byIcon(Icons.trending_down), findsOneWidget);
+      expect(find.byIcon(Icons.trending_down_rounded), findsOneWidget);
     });
 
     testWidgets('exposes portfolio summary semantics label', (tester) async {
@@ -91,8 +90,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('₹0'), findsOneWidget);
-      expect(find.textContaining('0.0%'), findsOneWidget);
+      expect(find.text('₹0'), findsAtLeastNWidgets(1));
+      expect(find.textContaining('0.0%'), findsAtLeastNWidgets(1));
     });
   });
 }

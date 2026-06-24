@@ -1,17 +1,20 @@
 import 'package:finview_lite/models/holding.dart';
 import 'package:finview_lite/utils/allocation_builder.dart';
+import 'package:finview_lite/utils/app_design_tokens.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/test_data.dart';
 
 void main() {
+  final palette = FinViewColors.light.chartPalette;
+
   group('buildAllocationSlices', () {
     test('builds slices with percentages for valued holdings', () {
       // Arrange
       const holdings = [TestData.tcs, TestData.infy];
 
       // Act
-      final slices = buildAllocationSlices(holdings);
+      final slices = buildAllocationSlices(holdings, palette: palette);
 
       // Assert
       expect(slices, hasLength(2));
@@ -34,7 +37,10 @@ void main() {
       );
 
       // Act
-      final slices = buildAllocationSlices([TestData.tcs, zeroValue]);
+      final slices = buildAllocationSlices(
+        [TestData.tcs, zeroValue],
+        palette: palette,
+      );
 
       // Assert
       expect(slices, hasLength(1));
@@ -53,7 +59,7 @@ void main() {
       );
 
       // Act
-      final slices = buildAllocationSlices([zeroValue]);
+      final slices = buildAllocationSlices([zeroValue], palette: palette);
 
       // Assert
       expect(slices, isEmpty);
@@ -61,7 +67,7 @@ void main() {
 
     test('returns empty list for empty holdings input', () {
       // Act
-      final slices = buildAllocationSlices(const []);
+      final slices = buildAllocationSlices(const [], palette: palette);
 
       // Assert
       expect(slices, isEmpty);
@@ -71,7 +77,7 @@ void main() {
   group('hasAllocationData', () {
     test('returns true when at least one slice has positive value', () {
       // Arrange
-      final slices = buildAllocationSlices([TestData.tcs]);
+      final slices = buildAllocationSlices([TestData.tcs], palette: palette);
 
       // Act
       final result = hasAllocationData(slices);
