@@ -23,6 +23,11 @@ String formatPercent(double value) {
   return '$prefix${value.toStringAsFixed(1)}%';
 }
 
+/// Formats an allocation share percentage without a sign prefix.
+String formatSharePercent(double value) {
+  return '${value.toStringAsFixed(1)}%';
+}
+
 String _groupDigits(int value) {
   final text = value.toString();
   final buffer = StringBuffer();

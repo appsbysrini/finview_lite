@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -24,6 +25,11 @@ void main() {
       ],
     );
 
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -39,7 +45,8 @@ void main() {
     expect(find.text('Test User'), findsOneWidget);
     expect(find.text('₹100,000'), findsOneWidget);
     expect(find.textContaining('+₹5,000'), findsOneWidget);
-    expect(find.text('TCS'), findsOneWidget);
+    expect(find.text('Allocation'), findsOneWidget);
+    expect(find.text('TCS'), findsNWidgets(2));
     expect(find.text('Tata Consultancy'), findsOneWidget);
   });
 }
