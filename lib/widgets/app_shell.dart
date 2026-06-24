@@ -71,6 +71,7 @@ class _FinViewMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FinView Lite',
+      debugShowCheckedModeBanner: false,
       theme: AppThemes.light,
       darkTheme: AppThemes.dark,
       themeMode: themeMode,
