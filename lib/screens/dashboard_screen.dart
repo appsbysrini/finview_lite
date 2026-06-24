@@ -6,9 +6,11 @@ import '../providers/auth_provider.dart';
 import '../providers/portfolio_provider.dart';
 import '../providers/portfolio_refresh_provider.dart';
 import '../providers/theme_provider.dart';
+import '../utils/app_design_tokens.dart';
 import '../utils/layout_constants.dart';
-import '../widgets/app_loading_indicator.dart';
 import '../widgets/dashboard_body.dart';
+import '../widgets/dashboard_header.dart';
+import '../widgets/dashboard_loading_view.dart';
 import '../widgets/portfolio_error_view.dart';
 import '../widgets/portfolio_header.dart';
 
@@ -24,36 +26,18 @@ class DashboardScreen extends ConsumerWidget {
     final isDarkMode = ref.watch(isDarkModeProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('FinView Lite'),
-        actions: [
-          if (isRefreshing)
-            const Padding(
-              padding: EdgeInsets.only(right: 8),
-              child: AppLoadingIndicator(),
-            ),
-          IconButton(
-            tooltip: isDarkMode ? 'Switch to light mode' : 'Switch to dark mode',
-            onPressed: () {
-              ref.read(themeModeProvider.notifier).toggle();
-            },
-            icon: Icon(
-              isDarkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-            ),
-          ),
-          IconButton(
-            tooltip: 'Sign out',
-            onPressed: () {
-              ref.read(authProvider.notifier).logout();
-            },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+      appBar: DashboardHeader(
+        isDarkMode: isDarkMode,
+        isRefreshing: isRefreshing,
+        onToggleTheme: () {
+          ref.read(themeModeProvider.notifier).toggle();
+        },
+        onSignOut: () {
+          ref.read(authProvider.notifier).logout();
+        },
       ),
       body: portfolioAsync.when(
-        loading: () => const Center(
-          child: AppLoadingIndicator(),
-        ),
+        loading: () => const DashboardLoadingView(),
         error: (error, stackTrace) => PortfolioErrorView(
           message: error.toString(),
         ),
@@ -77,24 +61,32 @@ class _PortfolioContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return Stack(
       children: [
         RefreshIndicator(
           onRefresh: () => ref.read(portfolioProvider.notifier).refresh(),
           semanticsLabel: 'Refresh portfolio',
+          color: theme.colorScheme.secondary,
           child: SafeArea(
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
                 SliverPadding(
-                  padding: const EdgeInsets.all(LayoutConstants.screenPadding),
+                  padding: const EdgeInsets.fromLTRB(
+                    LayoutConstants.screenPadding,
+                    AppDesignTokens.spaceSm,
+                    LayoutConstants.screenPadding,
+                    LayoutConstants.screenPadding,
+                  ),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         PortfolioHeader(portfolio: portfolio),
                         const SizedBox(
-                          height: LayoutConstants.sectionSpacing,
+                          height: AppDesignTokens.spaceSection,
                         ),
                         DashboardBody(portfolio: portfolio),
                       ],
@@ -106,11 +98,15 @@ class _PortfolioContent extends ConsumerWidget {
           ),
         ),
         if (isRefreshing)
-          const Positioned(
+          Positioned(
             left: 0,
             right: 0,
             top: 0,
-            child: LinearProgressIndicator(minHeight: 3),
+            child: LinearProgressIndicator(
+              minHeight: 2,
+              color: theme.colorScheme.secondary,
+              backgroundColor: theme.finView.borderSubtle,
+            ),
           ),
       ],
     );

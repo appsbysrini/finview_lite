@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/layout_constants.dart';
+import 'status_view.dart';
 
 /// Full-screen error state shown when loading fails.
 class PortfolioErrorView extends StatelessWidget {
@@ -21,37 +21,13 @@ class PortfolioErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(LayoutConstants.screenPadding * 1.5),
-        child: Semantics(
-          liveRegion: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                size: theme.textTheme.headlineMedium?.fontSize,
-                color: theme.colorScheme.error,
-                semanticLabel: 'Error',
-              ),
-              const SizedBox(height: LayoutConstants.sectionSpacing),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: LayoutConstants.sectionSpacing / 2),
-              Text(
-                message,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
+    return Semantics(
+      liveRegion: true,
+      child: StatusView(
+        icon: Icons.error_outline_rounded,
+        iconColor: theme.colorScheme.error,
+        title: title,
+        message: message,
       ),
     );
   }

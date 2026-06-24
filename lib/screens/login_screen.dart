@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/auth_provider.dart';
+import '../providers/login_provider.dart';
+import '../utils/app_design_tokens.dart';
 import '../utils/layout_constants.dart';
 import '../utils/prefs_keys.dart';
-import '../providers/login_provider.dart';
 import '../widgets/app_loading_indicator.dart';
-
-/// Horizontal padding around the login form.
-const _formPadding = 24.0;
-
-/// Vertical spacing between form fields.
-const _fieldSpacing = 16.0;
+import '../widgets/finview_card.dart';
 
 /// Mock login screen with persisted session support.
 class LoginScreen extends ConsumerStatefulWidget {
@@ -65,6 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final finView = theme.finView;
     final errorMessage = ref.watch(loginErrorProvider);
     final isSubmitting = ref.watch(loginSubmittingProvider);
 
@@ -72,103 +69,156 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(_formPadding),
+            padding: const EdgeInsets.all(AppDesignTokens.spaceLg),
             child: ConstrainedBox(
               constraints: const BoxConstraints(
                 maxWidth: LayoutConstants.tabletBreakpoint,
               ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'FinView Lite',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: _fieldSpacing / 2),
-                    Text(
-                      'Sign in to view your portfolio',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: _fieldSpacing * 2),
-                    TextFormField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                        border: OutlineInputBorder(),
-                      ),
-                      autofillHints: const [AutofillHints.username],
-                      textInputAction: TextInputAction.next,
-                      enabled: !isSubmitting,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Enter your username';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: _fieldSpacing),
-                    TextFormField(
-                      controller: _pinController,
-                      decoration: const InputDecoration(
-                        labelText: 'PIN',
-                        border: OutlineInputBorder(),
-                      ),
-                      autofillHints: const [AutofillHints.password],
-                      obscureText: true,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                      enabled: !isSubmitting,
-                      onFieldSubmitted: (_) => _submitLogin(),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Enter your PIN';
-                        }
-                        return null;
-                      },
-                    ),
-                    if (errorMessage != null) ...[
-                      const SizedBox(height: _fieldSpacing),
-                      Semantics(
-                        liveRegion: true,
-                        child: Text(
-                          errorMessage,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.error,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: AppDesignTokens.spaceXl),
+                  _LoginBrandHeader(finView: finView, theme: theme),
+                  const SizedBox(height: AppDesignTokens.spaceXl),
+                  FinViewCard(
+                    padding: const EdgeInsets.all(AppDesignTokens.spaceLg),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Sign in',
+                            style: theme.textTheme.titleLarge,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
+                          const SizedBox(height: AppDesignTokens.spaceXs),
+                          Text(
+                            'Access your portfolio dashboard',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(height: AppDesignTokens.spaceLg),
+                          TextFormField(
+                            controller: _usernameController,
+                            decoration: const InputDecoration(
+                              labelText: 'Username',
+                              prefixIcon: Icon(Icons.person_outline_rounded),
+                            ),
+                            autofillHints: const [AutofillHints.username],
+                            textInputAction: TextInputAction.next,
+                            enabled: !isSubmitting,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Enter your username';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: AppDesignTokens.spaceMd),
+                          TextFormField(
+                            controller: _pinController,
+                            decoration: const InputDecoration(
+                              labelText: 'PIN',
+                              prefixIcon: Icon(Icons.lock_outline_rounded),
+                            ),
+                            autofillHints: const [AutofillHints.password],
+                            obscureText: true,
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.done,
+                            enabled: !isSubmitting,
+                            onFieldSubmitted: (_) => _submitLogin(),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return 'Enter your PIN';
+                              }
+                              return null;
+                            },
+                          ),
+                          if (errorMessage != null) ...[
+                            const SizedBox(height: AppDesignTokens.spaceMd),
+                            Semantics(
+                              liveRegion: true,
+                              child: Text(
+                                errorMessage,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.error,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                          const SizedBox(height: AppDesignTokens.spaceLg),
+                          FilledButton(
+                            onPressed: isSubmitting ? null : _submitLogin,
+                            child: isSubmitting
+                                ? const AppLoadingIndicator()
+                                : const Text('Continue'),
+                          ),
+                        ],
                       ),
-                    ],
-                    const SizedBox(height: _fieldSpacing * 1.5),
-                    FilledButton(
-                      onPressed: isSubmitting ? null : _submitLogin,
-                      child: isSubmitting
-                          ? const AppLoadingIndicator()
-                          : const Text('Sign In'),
                     ),
-                    const SizedBox(height: _fieldSpacing),
-                    Text(
-                      'Demo credentials: ${AuthConstants.username} / ${AuthConstants.pin}',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: AppDesignTokens.spaceMd),
+                  Text(
+                    'Demo: ${AuthConstants.username} / ${AuthConstants.pin}',
+                    style: theme.textTheme.bodySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _LoginBrandHeader extends StatelessWidget {
+  const _LoginBrandHeader({
+    required this.finView,
+    required this.theme,
+  });
+
+  final FinViewColors finView;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: finView.brand,
+            borderRadius: BorderRadius.circular(AppDesignTokens.radiusMd),
+          ),
+          child: Icon(
+            Icons.show_chart_rounded,
+            color: theme.colorScheme.surface,
+            size: 24,
+          ),
+        ),
+        const SizedBox(height: AppDesignTokens.spaceMd),
+        Text(
+          'FinView',
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.5,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: AppDesignTokens.spaceSm),
+        Text(
+          'Modern portfolio tracking',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }

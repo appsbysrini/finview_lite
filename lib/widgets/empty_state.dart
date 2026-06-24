@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Vertical spacing between empty-state icon and title.
-const _iconSpacing = 16.0;
-
-/// Vertical spacing between title and subtitle.
-const _titleSpacing = 8.0;
+import 'status_view.dart';
 
 /// Placeholder shown when the portfolio has no holdings.
 class EmptyStateWidget extends StatelessWidget {
@@ -13,35 +9,10 @@ class EmptyStateWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: _iconSpacing * 2),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.pie_chart_outline,
-            size: theme.textTheme.headlineLarge?.fontSize,
-            color: theme.colorScheme.onSurfaceVariant,
-            semanticLabel: 'No holdings',
-          ),
-          const SizedBox(height: _iconSpacing),
-          Text(
-            'No holdings yet',
-            style: theme.textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: _titleSpacing),
-          Text(
-            'Add investments to see them listed here.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+    return const StatusView(
+      icon: Icons.pie_chart_outline_rounded,
+      title: 'No holdings yet',
+      message: 'Add investments to see them listed here.',
     );
   }
 }

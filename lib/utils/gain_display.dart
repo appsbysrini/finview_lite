@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'app_design_tokens.dart';
 import '../providers/return_toggle_provider.dart';
 import 'formatters.dart';
 
-/// Returns the theme color used for a gain or loss [amount].
+/// Returns the semantic profit or loss color for [amount].
 Color gainColorFor(ThemeData theme, double amount) {
-  return amount >= 0 ? theme.colorScheme.primary : theme.colorScheme.error;
+  final finView = theme.finView;
+  return amount >= 0 ? finView.profit : finView.loss;
 }
 
 /// Formats a return value for the active [ReturnDisplayMode].

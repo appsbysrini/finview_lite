@@ -3,22 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/allocation_slice.dart';
 import '../providers/allocation_provider.dart';
+import '../providers/portfolio_provider.dart';
 import '../utils/allocation_builder.dart';
 import '../utils/animation_constants.dart';
+import '../utils/app_design_tokens.dart';
 import '../utils/layout_constants.dart';
 import 'allocation_legend.dart';
 import 'allocation_pie_chart.dart';
 import 'animated_appearance.dart';
 import 'chart_no_data_placeholder.dart';
-
-/// Corner radius for the allocation card container.
-const _cardRadius = 16.0;
-
-/// Inner padding for the allocation card.
-const _cardPadding = 16.0;
-
-/// Spacing between chart and legend.
-const _legendSpacing = 16.0;
+import 'finview_card.dart';
+import 'section_header.dart';
 
 /// Section showing portfolio allocation by holding value.
 class AllocationChart extends ConsumerWidget {
@@ -29,48 +24,35 @@ class AllocationChart extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final slices = ref.watch(allocationSlicesProvider);
     final hasData = ref.watch(allocationHasDataProvider);
-    final theme = Theme.of(context);
+    final portfolio = ref.watch(portfolioProvider).value;
 
     return AnimatedAppearance(
       index: 1,
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(_cardRadius),
-          side: BorderSide(
-            color: theme.colorScheme.outlineVariant,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(_cardPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Allocation',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: LayoutConstants.sectionSpacing),
-              AnimatedSwitcher(
-                duration: AnimationConstants.medium,
-                switchInCurve: AnimationConstants.entranceCurve,
-                switchOutCurve: Curves.easeInCubic,
-                child: hasData
-                    ? _AllocationChartContent(
-                        key: ValueKey<String>(
-                          slices.map((slice) => slice.symbol).join(','),
-                        ),
-                        slices: slices,
-                      )
-                    : const ChartNoDataPlaceholder(
-                        key: ValueKey<String>('allocation-no-data'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SectionHeader(title: 'Allocation'),
+          const SizedBox(height: AppDesignTokens.spaceMd),
+          FinViewCard(
+            padding: const EdgeInsets.all(AppDesignTokens.spaceLg),
+            child: AnimatedSwitcher(
+              duration: AnimationConstants.medium,
+              switchInCurve: AnimationConstants.entranceCurve,
+              switchOutCurve: Curves.easeInCubic,
+              child: hasData
+                  ? _AllocationChartContent(
+                      key: ValueKey<String>(
+                        slices.map((slice) => slice.symbol).join(','),
                       ),
-              ),
-            ],
+                      slices: slices,
+                      centerValue: portfolio?.portfolioValue ?? 0,
+                    )
+                  : const ChartNoDataPlaceholder(
+                      key: ValueKey<String>('allocation-no-data'),
+                    ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -80,9 +62,11 @@ class _AllocationChartContent extends StatelessWidget {
   const _AllocationChartContent({
     super.key,
     required this.slices,
+    required this.centerValue,
   });
 
   final List<AllocationSlice> slices;
+  final double centerValue;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +78,10 @@ class _AllocationChartContent extends StatelessWidget {
         final chart = AnimatedChartEntrance(
           child: SizedBox(
             height: AllocationChartConstants.mobileChartHeight,
-            child: AllocationPieChart(slices: slices),
+            child: AllocationPieChart(
+              slices: slices,
+              centerValue: centerValue,
+            ),
           ),
         );
 
@@ -115,7 +102,7 @@ class _AllocationChartContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             chart,
-            const SizedBox(height: _legendSpacing),
+            const SizedBox(height: AppDesignTokens.spaceLg),
             AllocationLegend(slices: slices),
           ],
         );

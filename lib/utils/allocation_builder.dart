@@ -9,32 +9,23 @@ abstract final class AllocationChartConstants {
   static const chartAspectRatio = 1.0;
 
   /// Fixed chart height on mobile layouts.
-  static const mobileChartHeight = 220.0;
+  static const mobileChartHeight = 240.0;
 
   /// Inner radius for the donut chart center hole.
-  static const centerSpaceRadius = 48.0;
+  static const centerSpaceRadius = 52.0;
 
   /// Gap between pie sections in degrees.
   static const sectionsSpace = 2.0;
 
   /// Default radius for pie sections.
-  static const sectionRadius = 56.0;
-
-  /// Palette used to distinguish allocation slices.
-  static const palette = <Color>[
-    Color(0xFF6750A4),
-    Color(0xFF7D5260),
-    Color(0xFF006A6A),
-    Color(0xFF984061),
-    Color(0xFF4A4459),
-    Color(0xFF006E1C),
-    Color(0xFF8C4A00),
-    Color(0xFF005CB9),
-  ];
+  static const sectionRadius = 58.0;
 }
 
 /// Builds allocation slices from [holdings], excluding zero-value entries.
-List<AllocationSlice> buildAllocationSlices(List<Holding> holdings) {
+List<AllocationSlice> buildAllocationSlices(
+  List<Holding> holdings, {
+  required List<Color> palette,
+}) {
   final valuedHoldings =
       holdings.where((holding) => holding.currentValue > 0).toList();
 
@@ -60,8 +51,7 @@ List<AllocationSlice> buildAllocationSlices(List<Holding> holdings) {
       name: holding.name,
       value: holding.currentValue,
       percentage: percentage,
-      color: AllocationChartConstants.palette[
-          index % AllocationChartConstants.palette.length],
+      color: palette[index % palette.length],
     );
   });
 }

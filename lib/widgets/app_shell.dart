@@ -6,7 +6,7 @@ import '../providers/theme_provider.dart';
 import '../screens/dashboard_screen.dart';
 import '../screens/login_screen.dart';
 import '../utils/app_themes.dart';
-import '../widgets/app_loading_indicator.dart';
+import '../widgets/dashboard_loading_view.dart';
 import '../widgets/portfolio_error_view.dart';
 
 /// Bootstraps theme, auth, and routes to login or dashboard.
@@ -81,8 +81,8 @@ class _BootstrapLoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: AppLoadingIndicator(),
+      body: DashboardLoadingView(
+        message: 'Starting FinView…',
       ),
     );
   }
