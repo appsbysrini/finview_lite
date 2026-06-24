@@ -39,6 +39,8 @@ void main() {
     expect(find.text('Test User'), findsOneWidget);
     expect(find.text('₹100,000'), findsOneWidget);
     expect(find.textContaining('+₹5,000'), findsOneWidget);
+    expect(find.text('TCS'), findsOneWidget);
+    expect(find.text('Tata Consultancy'), findsOneWidget);
   });
 }
 

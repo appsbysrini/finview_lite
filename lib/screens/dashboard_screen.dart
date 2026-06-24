@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/user_portfolio.dart';
 import '../providers/portfolio_provider.dart';
+import '../widgets/holdings_list.dart';
 import '../widgets/portfolio_header.dart';
 
 /// Outer padding around dashboard content.
@@ -44,7 +45,14 @@ class _PortfolioContent extends StatelessWidget {
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(_screenPadding),
-        child: PortfolioHeader(portfolio: portfolio),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            PortfolioHeader(portfolio: portfolio),
+            const SizedBox(height: _screenPadding),
+            HoldingsList(holdings: portfolio.holdings),
+          ],
+        ),
       ),
     );
   }
