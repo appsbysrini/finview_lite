@@ -19,6 +19,7 @@ class DashboardScreen extends ConsumerWidget {
   /// Creates the dashboard that watches [portfolioProvider].
   const DashboardScreen({super.key});
 
+  /// Builds the dashboard scaffold with header and portfolio body.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final portfolioAsync = ref.watch(portfolioProvider);
@@ -50,7 +51,9 @@ class DashboardScreen extends ConsumerWidget {
   }
 }
 
+/// Scrollable portfolio content with pull-to-refresh support.
 class _PortfolioContent extends ConsumerWidget {
+  /// Creates scrollable content for [portfolio].
   const _PortfolioContent({
     required this.portfolio,
     required this.isRefreshing,
@@ -59,6 +62,7 @@ class _PortfolioContent extends ConsumerWidget {
   final UserPortfolio portfolio;
   final bool isRefreshing;
 
+  /// Builds the refreshable portfolio summary and dashboard sections.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);

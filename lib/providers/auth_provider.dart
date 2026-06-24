@@ -5,6 +5,7 @@ import '../utils/prefs_keys.dart';
 
 /// Manages mock login state with SharedPreferences persistence.
 class AuthNotifier extends AsyncNotifier<bool> {
+  /// Reads persisted login state when the provider is first watched.
   @override
   Future<bool> build() async {
     return _readLoginState();
@@ -33,11 +34,13 @@ class AuthNotifier extends AsyncNotifier<bool> {
     state = const AsyncData(false);
   }
 
+  /// Returns whether a login session is stored in SharedPreferences.
   Future<bool> _readLoginState() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(PrefsKeys.isLoggedIn) ?? false;
   }
 
+  /// Persists [isLoggedIn] to SharedPreferences.
   Future<void> _saveLoginState({required bool isLoggedIn}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefsKeys.isLoggedIn, isLoggedIn);

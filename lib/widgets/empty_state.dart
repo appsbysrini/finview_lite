@@ -7,6 +7,7 @@ class EmptyStateWidget extends StatelessWidget {
   /// Creates an empty-state view with a default holdings message.
   const EmptyStateWidget({super.key});
 
+  /// Builds the empty holdings placeholder via [StatusView].
   @override
   Widget build(BuildContext context) {
     return const StatusView(

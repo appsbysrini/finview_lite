@@ -17,6 +17,7 @@ class ResponsiveLayout extends StatelessWidget {
   /// Widget shown when width is at or above [LayoutConstants.tabletBreakpoint].
   final Widget tablet;
 
+  /// Builds [mobile] or [tablet] based on layout constraints.
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

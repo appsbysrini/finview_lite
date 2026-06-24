@@ -9,6 +9,7 @@ class ReturnToggle extends ConsumerWidget {
   /// Creates a toggle bound to [returnToggleProvider].
   const ReturnToggle({super.key});
 
+  /// Builds the ₹ / % segmented return toggle.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final displayMode = ref.watch(returnToggleProvider);

@@ -15,6 +15,7 @@ class AllocationLegend extends StatelessWidget {
   /// Allocation slices shown in the legend.
   final List<AllocationSlice> slices;
 
+  /// Builds the symbol, percentage, and value rows for each slice.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

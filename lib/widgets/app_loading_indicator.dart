@@ -26,6 +26,7 @@ class AppLoadingIndicator extends StatelessWidget {
   /// Whether to render a larger spinner suited for full-screen states.
   final bool fullScreen;
 
+  /// Builds an inline or full-screen circular progress indicator.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

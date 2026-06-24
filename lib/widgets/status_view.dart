@@ -34,6 +34,7 @@ class StatusView extends StatelessWidget {
   /// When true, renders inline content without an outer card shell.
   final bool embedded;
 
+  /// Builds the centered status card or embedded content.
   @override
   Widget build(BuildContext context) {
     final content = _StatusContent(
@@ -66,7 +67,9 @@ class StatusView extends StatelessWidget {
   }
 }
 
+/// Icon, title, message, and optional action for [StatusView].
 class _StatusContent extends StatelessWidget {
+  /// Creates the inner content for a status view.
   const _StatusContent({
     required this.icon,
     required this.title,
@@ -81,6 +84,7 @@ class _StatusContent extends StatelessWidget {
   final Color? iconColor;
   final Widget? action;
 
+  /// Builds the icon well, text, and optional action column.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'widgets/app_shell.dart';
 
+/// Application entry point; wraps the app in Riverpod.
 void main() {
   runApp(
     const ProviderScope(
@@ -17,6 +18,7 @@ class FinViewLiteApp extends StatelessWidget {
   /// Creates the app shell with Riverpod scope already applied upstream.
   const FinViewLiteApp({super.key});
 
+  /// Builds the root widget tree inside the DevicePreview wrapper.
   @override
   Widget build(BuildContext context) {
     return DevicePreview.appBuilder(

@@ -22,6 +22,7 @@ class AllocationPieChart extends StatelessWidget {
   /// Total portfolio value shown in the donut center.
   final double centerValue;
 
+  /// Builds the accessible donut chart with a center value label.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -75,7 +76,9 @@ class AllocationPieChart extends StatelessWidget {
   }
 }
 
+/// Center label overlay for the allocation donut chart.
 class _ChartCenterLabel extends StatelessWidget {
+  /// Creates a center label showing [value] and [caption].
   const _ChartCenterLabel({
     required this.value,
     required this.caption,
@@ -86,6 +89,7 @@ class _ChartCenterLabel extends StatelessWidget {
   final String caption;
   final ThemeData theme;
 
+  /// Builds the caption and formatted value column.
   @override
   Widget build(BuildContext context) {
     return Column(

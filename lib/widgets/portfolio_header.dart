@@ -19,6 +19,7 @@ class PortfolioHeader extends StatelessWidget {
   /// Portfolio data shown in the summary card.
   final UserPortfolio portfolio;
 
+  /// Builds the portfolio summary card with value and statistics.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -69,10 +70,12 @@ class PortfolioHeader extends StatelessWidget {
 
 /// Secondary statistics shown beneath the portfolio value.
 class _PortfolioStatsRow extends StatelessWidget {
+  /// Creates a row of invested, return, and holdings stats.
   const _PortfolioStatsRow({required this.portfolio});
 
   final UserPortfolio portfolio;
 
+  /// Builds the three-column statistics row.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -106,7 +109,9 @@ class _PortfolioStatsRow extends StatelessWidget {
   }
 }
 
+/// Vertical divider separating stat tiles in the stats row.
 class _StatDivider extends StatelessWidget {
+  /// Builds a subtle vertical rule between stat columns.
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -118,7 +123,9 @@ class _StatDivider extends StatelessWidget {
   }
 }
 
+/// Single label-value pair in the portfolio statistics row.
 class _StatTile extends StatelessWidget {
+  /// Creates a stat tile with optional [valueColor] override.
   const _StatTile({
     required this.label,
     required this.value,
@@ -129,6 +136,7 @@ class _StatTile extends StatelessWidget {
   final String value;
   final Color? valueColor;
 
+  /// Builds the label and value column for one statistic.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

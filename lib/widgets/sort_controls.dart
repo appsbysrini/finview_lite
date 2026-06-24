@@ -9,6 +9,7 @@ class SortControls extends ConsumerWidget {
   /// Creates sort controls bound to [sortProvider].
   const SortControls({super.key});
 
+  /// Builds the value, gain, and name sort segmented control.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sort = ref.watch(sortProvider);

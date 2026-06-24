@@ -14,15 +14,18 @@ class LoginScreen extends ConsumerStatefulWidget {
   /// Creates the login screen.
   const LoginScreen({super.key});
 
+  /// Creates the mutable state for the login form.
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
+/// State for [LoginScreen] managing form input and submission.
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _pinController = TextEditingController();
 
+  /// Disposes text controllers when the screen is removed.
   @override
   void dispose() {
     _usernameController.dispose();
@@ -58,6 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  /// Builds the login form with username, PIN, and submit controls.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -176,6 +180,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 }
 
 class _LoginBrandHeader extends StatelessWidget {
+  /// Creates the FinView logo and tagline shown above the login card.
   const _LoginBrandHeader({
     required this.finView,
     required this.theme,
@@ -184,6 +189,7 @@ class _LoginBrandHeader extends StatelessWidget {
   final FinViewColors finView;
   final ThemeData theme;
 
+  /// Builds the brand icon, title, and subtitle column.
   @override
   Widget build(BuildContext context) {
     return Column(

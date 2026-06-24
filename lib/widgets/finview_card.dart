@@ -33,6 +33,7 @@ class FinViewCard extends StatelessWidget {
   /// Corner radius applied to the card.
   final double borderRadius;
 
+  /// Builds the bordered card surface wrapping [child].
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -6,6 +6,7 @@ import '../utils/prefs_keys.dart';
 
 /// Loads and persists the active Material [ThemeMode].
 class ThemeModeNotifier extends AsyncNotifier<ThemeMode> {
+  /// Loads the persisted theme mode when the provider is first watched.
   @override
   Future<ThemeMode> build() async {
     return _readThemeMode();
@@ -20,12 +21,14 @@ class ThemeModeNotifier extends AsyncNotifier<ThemeMode> {
     state = AsyncData(next);
   }
 
+  /// Returns the saved theme mode from SharedPreferences.
   Future<ThemeMode> _readThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
     final isDark = prefs.getBool(PrefsKeys.isDarkMode) ?? false;
     return isDark ? ThemeMode.dark : ThemeMode.light;
   }
 
+  /// Persists [mode] to SharedPreferences.
   Future<void> _saveThemeMode(ThemeMode mode) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(PrefsKeys.isDarkMode, mode == ThemeMode.dark);

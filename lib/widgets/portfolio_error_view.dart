@@ -17,6 +17,7 @@ class PortfolioErrorView extends StatelessWidget {
   /// Error detail shown below the title.
   final String message;
 
+  /// Builds the accessible portfolio error status view.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -25,9 +25,11 @@ class DashboardHeader extends StatelessWidget implements PreferredSizeWidget {
   /// Whether a portfolio refresh is in progress.
   final bool isRefreshing;
 
+  /// Returns the fixed height required by [PreferredSizeWidget].
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
+  /// Builds the branded app bar with theme and sign-out actions.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

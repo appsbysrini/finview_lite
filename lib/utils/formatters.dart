@@ -28,6 +28,7 @@ String formatSharePercent(double value) {
   return '${value.toStringAsFixed(1)}%';
 }
 
+/// Inserts Indian-style comma grouping into [value] without a currency prefix.
 String _groupDigits(int value) {
   final text = value.toString();
   final buffer = StringBuffer();

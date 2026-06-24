@@ -25,6 +25,7 @@ class HoldingsList extends ConsumerWidget {
   /// Raw holdings from the loaded portfolio.
   final List<Holding> holdings;
 
+  /// Builds the holdings section with sort controls and rows.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sort = ref.watch(sortProvider);
@@ -59,7 +60,9 @@ class HoldingsList extends ConsumerWidget {
   }
 }
 
+/// Staggered list of [HoldingCard] rows inside a grouped card.
 class _AnimatedHoldingsRows extends StatelessWidget {
+  /// Creates animated rows for [holdings] using [displayMode].
   const _AnimatedHoldingsRows({
     required this.holdings,
     required this.displayMode,
@@ -68,6 +71,7 @@ class _AnimatedHoldingsRows extends StatelessWidget {
   final List<Holding> holdings;
   final ReturnDisplayMode displayMode;
 
+  /// Builds holding rows with staggered entrance animations.
   @override
   Widget build(BuildContext context) {
     return Column(

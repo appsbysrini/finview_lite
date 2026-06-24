@@ -17,6 +17,7 @@ class TickerAvatar extends StatelessWidget {
   /// Diameter of the avatar in logical pixels.
   final double size;
 
+  /// Builds the ticker initials avatar for [symbol].
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

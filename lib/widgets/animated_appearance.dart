@@ -21,6 +21,7 @@ class AnimatedAppearance extends StatelessWidget {
   /// Base duration for the entrance animation.
   final Duration duration;
 
+  /// Builds the fade-and-slide entrance animation around [child].
   @override
   Widget build(BuildContext context) {
     final totalDuration = duration + AnimationConstants.listItemStagger * index;
@@ -54,6 +55,7 @@ class AnimatedChartEntrance extends StatelessWidget {
   /// Chart widget animated into view.
   final Widget child;
 
+  /// Builds the scale-and-fade entrance animation around [child].
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
@@ -100,6 +102,7 @@ class AnimatedValueText extends StatelessWidget {
   /// Optional text alignment.
   final TextAlign? textAlign;
 
+  /// Builds cross-fading text that animates when [valueKey] changes.
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(

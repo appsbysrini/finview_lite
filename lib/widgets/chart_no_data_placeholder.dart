@@ -7,6 +7,7 @@ class ChartNoDataPlaceholder extends StatelessWidget {
   /// Creates a chart placeholder with a default message.
   const ChartNoDataPlaceholder({super.key});
 
+  /// Builds the embedded chart no-data placeholder.
   @override
   Widget build(BuildContext context) {
     return const StatusView(

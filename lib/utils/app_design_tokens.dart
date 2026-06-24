@@ -137,6 +137,7 @@ class FinViewColors extends ThemeExtension<FinViewColors> {
     borderSubtle: Color(0xFF2E2E33),
   );
 
+  /// Returns a copy with selectively replaced color fields.
   @override
   FinViewColors copyWith({
     Color? profit,
@@ -166,6 +167,7 @@ class FinViewColors extends ThemeExtension<FinViewColors> {
     );
   }
 
+  /// Linearly interpolates between this palette and [other].
   @override
   FinViewColors lerp(ThemeExtension<FinViewColors>? other, double t) {
     if (other is! FinViewColors) {

@@ -17,6 +17,7 @@ class DashboardMobileBody extends StatelessWidget {
   /// Loaded portfolio used by the holdings section.
   final UserPortfolio portfolio;
 
+  /// Builds a single-column allocation chart and holdings list.
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,6 +42,7 @@ class DashboardTabletBody extends StatelessWidget {
   /// Loaded portfolio used by the holdings section.
   final UserPortfolio portfolio;
 
+  /// Builds a two-column allocation chart and holdings layout.
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -69,6 +71,7 @@ class DashboardBody extends StatelessWidget {
   /// Loaded portfolio shown on the dashboard.
   final UserPortfolio portfolio;
 
+  /// Builds the responsive mobile or tablet dashboard body.
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(

@@ -17,6 +17,7 @@ class SectionHeader extends StatelessWidget {
   /// Optional trailing widget such as a toggle.
   final Widget? trailing;
 
+  /// Builds the title row with optional trailing control.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

@@ -26,6 +26,7 @@ class GainPill extends StatelessWidget {
   /// Whether to use a lighter, border-only style.
   final bool compact;
 
+  /// Builds a compact or filled pill styled by gain/loss semantics.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

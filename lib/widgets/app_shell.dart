@@ -14,6 +14,7 @@ class AppShell extends ConsumerWidget {
   /// Creates the root app shell.
   const AppShell({super.key});
 
+  /// Resolves theme and auth state, then routes to login or dashboard.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeAsync = ref.watch(themeModeProvider);
@@ -54,7 +55,9 @@ class AppShell extends ConsumerWidget {
   }
 }
 
+/// Internal [MaterialApp] configured with FinView themes.
 class _FinViewMaterialApp extends StatelessWidget {
+  /// Creates a material app with optional [themeMode] and [home].
   const _FinViewMaterialApp({
     required this.home,
     this.themeMode,
@@ -63,6 +66,7 @@ class _FinViewMaterialApp extends StatelessWidget {
   final Widget home;
   final ThemeMode? themeMode;
 
+  /// Builds the themed [MaterialApp] shell.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,9 +79,11 @@ class _FinViewMaterialApp extends StatelessWidget {
   }
 }
 
+/// Placeholder screen shown while bootstrap providers are loading.
 class _BootstrapLoadingScreen extends StatelessWidget {
   const _BootstrapLoadingScreen();
 
+  /// Builds a full-screen loading scaffold.
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

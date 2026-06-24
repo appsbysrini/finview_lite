@@ -20,6 +20,7 @@ class AllocationChart extends ConsumerWidget {
   /// Creates an allocation chart driven by [allocationSlicesProvider].
   const AllocationChart({super.key});
 
+  /// Builds the allocation section with chart or no-data placeholder.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final slices = ref.watch(allocationSlicesProvider);
@@ -58,7 +59,9 @@ class AllocationChart extends ConsumerWidget {
   }
 }
 
+/// Responsive layout combining the pie chart and legend.
 class _AllocationChartContent extends StatelessWidget {
+  /// Creates chart content for [slices] with [centerValue] in the donut.
   const _AllocationChartContent({
     super.key,
     required this.slices,
@@ -68,6 +71,7 @@ class _AllocationChartContent extends StatelessWidget {
   final List<AllocationSlice> slices;
   final double centerValue;
 
+  /// Builds side-by-side or stacked chart and legend based on width.
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

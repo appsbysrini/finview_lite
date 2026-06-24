@@ -74,6 +74,7 @@ abstract final class AppThemes {
     finViewColors: FinViewColors.dark,
   );
 
+  /// Assembles a complete [ThemeData] for the given [brightness].
   static ThemeData _buildTheme({
     required Brightness brightness,
     required ColorScheme colorScheme,
@@ -183,6 +184,7 @@ abstract final class AppThemes {
     );
   }
 
+  /// Builds the Inter-based text theme with tabular figures for numerals.
   static TextTheme _buildTextTheme(
     TextTheme base,
     ColorScheme colorScheme,

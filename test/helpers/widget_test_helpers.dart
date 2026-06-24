@@ -39,10 +39,12 @@ Override portfolioOverride(UserPortfolio portfolio) {
 
 /// Portfolio notifier that always resolves to a fixed value.
 class _FixedPortfolioNotifier extends PortfolioNotifier {
+  /// Creates a notifier pinned to [_portfolio].
   _FixedPortfolioNotifier(this._portfolio);
 
   final UserPortfolio _portfolio;
 
+  /// Returns the fixed portfolio without loading from assets.
   @override
   Future<UserPortfolio> build() async => _portfolio;
 }

@@ -13,6 +13,7 @@ class DashboardLoadingView extends StatelessWidget {
   /// Message shown below the loading indicator.
   final String message;
 
+  /// Builds the centered loading indicator and optional message.
   @override
   Widget build(BuildContext context) {
     return Center(

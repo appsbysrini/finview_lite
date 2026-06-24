@@ -28,6 +28,7 @@ class HoldingCard extends StatelessWidget {
   /// Whether to render a bottom divider after the row.
   final bool showDivider;
 
+  /// Builds the holding row with avatar, value, and return pill.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

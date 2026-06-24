@@ -12,6 +12,7 @@ const portfolioAssetPath = 'assets/portfolio.json';
 
 /// Loads and exposes the user's portfolio from local assets.
 class PortfolioNotifier extends AsyncNotifier<UserPortfolio> {
+  /// Loads the bundled portfolio JSON when the provider is first watched.
   @override
   Future<UserPortfolio> build() async {
     return _loadPortfolio();
@@ -39,6 +40,7 @@ class PortfolioNotifier extends AsyncNotifier<UserPortfolio> {
     }
   }
 
+  /// Reads and parses [portfolioAssetPath] into a [UserPortfolio].
   Future<UserPortfolio> _loadPortfolio() async {
     final jsonString = await rootBundle.loadString(portfolioAssetPath);
     final decoded = jsonDecode(jsonString);
